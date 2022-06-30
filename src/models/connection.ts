@@ -10,7 +10,7 @@ export default class MongoConnection {
      * me emprede no momento que instânciar esse métode eu possa passar uma outra 
      * conexão
      */
-    static async connect(URI: string = 'mongodb://localhost:27017/cinema') {
+    static async connect(URI: string = 'mongodb://localhost:27017/seguranca') {
         await mongoose.connect(URI);
     }
 }

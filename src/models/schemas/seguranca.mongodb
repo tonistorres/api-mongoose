@@ -1,0 +1,51 @@
+use('seguranca');
+
+db.createCollection( "login", { collation: { locale: "pt" } } );
+
+db.login.insertMany(
+    [
+ {
+    user:"João Gomes",
+    addresss:{
+        state:"Maranhao",
+        city:"Alto Alegre",
+        district:"centro",
+        street:"rua do comercio"    
+    },
+    senha:"xablau7"
+},
+{
+    user:"Maria Balbino",
+    addresss:{
+        state:"Maranhao",
+        city:"Alto Alegre",
+        district:"centro",
+        street:"rua do satubal"    
+    },
+    senha:"xablau9"
+},
+{
+    user:"Douglas Torres",
+    addresss:{
+        state:"Maranhao",
+        city:"Alto Alegre",
+        district:"centro",
+        street:"avenida rodoviaria"    
+    },
+    senha:"xablau9"
+},
+{
+    user:"Alexandre Torres",
+    addresss:{
+        state:"Maranhao",
+        city:"Alto Alegre",
+        district:"centro",
+        street:"avenida rodoriaria"    
+    },
+    senha:"xablau9"
+},
+], {ordered:false}
+    
+);
+
+db.login.find()
