@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import { IBook, bookMongooseModel } from './schemas/book.schema';
 
-export default class MovieModel {
+export default class BookModel {
 
     private bookMongooseModel: Model<IBook>;
 
