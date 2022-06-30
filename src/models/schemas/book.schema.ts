@@ -66,4 +66,4 @@ const bookSchema = new Schema<IBook>({
 
 })
 
-export const bookMongooseModel = model<IBook>('cinema', bookSchema);
+export const bookMongooseModel = model<IBook>('cinemas', bookSchema);

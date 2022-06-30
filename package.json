@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/server.ts",
-    "dev": "nodemon --watch \"./src/**\" --ext \"ts,js\" --ignore \"src/**/*.spec.ts,src/**/*.json\" --exec \"ts-node src/server.ts\"",
+    "dev": "nodemon server.ts",
+    "compose:up": "docker-compose up",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
