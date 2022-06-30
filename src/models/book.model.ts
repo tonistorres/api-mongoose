@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { IBook, bookMongooseModel } from './model/schemas/book.schema';
+import { IBook, bookMongooseModel } from './schemas/book.schema';
 
 export default class MovieModel {
 
