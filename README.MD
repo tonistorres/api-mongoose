@@ -11,15 +11,28 @@
 npm install concurrently --save
 ```
 
-- [x] - para colocar de forma automágica iremos inicializar um arquivo package.json e no script start iremos colocar essa linha de comando para digitarmos apenas npm start.
+- [x] - Inicializando um projeto Node:
+> Para quem não conhece esse comando, o npm init apresenta um simples questionário para descrever informações básica de um módulo Node.js, pelo qual seu resultado final é gerar o arquivo package.json. No exemplo abaixo ignoro todas as perguntas e gero o package.json default.
 
+[Fonte de informação](https://udgwebdev.github.io/customizando-npm-init/)
+
+> O Conventional commit foi inspirado no  Angular Commit Guidelines, nos fornece um conjunto de regras para criação de um histórico de commits; o que torna mais fácil de escrever com ferramentas automatizadas. Essa convenção se encaixa com o Sem Ver, descrevendo recursos, correções e alterações importantes feitas.
+> 
+
+[Fonte de informação](https://diegofranca.dev/2020/08/11/git-conventional-commits/)
 
 ```console 
 npm init -y
 npm install git-commit-msg-linter --save-dev
 ```
-> Nota: criar um arquivo .gitignore | adicionar a pasta node_modules/ no seu conteudo.
-> 
+- [x] - Criar um arquivo .gitignore e adicionar no seru escopo dos comandos iniciais abaixo explicitado:
+
+```console
+node_modules/
+.env
+```
+
+- []
 
 ```json
 "start":"tsc && node dist/src/index.js",
