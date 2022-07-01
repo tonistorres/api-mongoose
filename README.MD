@@ -1,6 +1,15 @@
 ![Tux, the Linux mascot](/ts.png)
 
 ## 1- Setup Inicial e uma aplicação TypeScript:
+- [x] - Instalando o pacote Concurrently, podemos combinar diferentes comandos de script, como “npm run start” e “npm run build” em um único script e, em seguida, executá-lo na linha de comando.
+
+[link paconte npm ](https://www.npmjs.com/package/concurrently)
+
+[link Blog Acervo Lima](https://acervolima.com/como-executar-varios-scripts-npm-em-paralelo/#:~:text=Ap%C3%B3s%20a%20instala%C3%A7%C3%A3o%20do%20pacote,a%20opera%C3%A7%C3%A3o%20de%20constru%C3%A7%C3%A3o%20simultaneamente.)
+
+```console
+npm install concurrently --save
+```
 
 - [x] - para colocar de forma automágica iremos inicializar um arquivo package.json e no script start iremos colocar essa linha de comando para digitarmos apenas npm start.
 
@@ -45,21 +54,177 @@ npx tsc --init
 
 ```json
 {
-   "compilerOptions": {
-    "target": "es2016",                                 
-    "module": "commonjs",
-    "rootDir": "./",
+  "compilerOptions": {
     "outDir": "./dist",
-    "preserveConstEnums": true,
+    "rootDir": ".",
+    "target": "es2019",
+    "module": "commonjs",
+    "typeRoots": [
+      "src/@types",
+      "./node_modules/@types"
+    ],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true
   },
-  "include":["src/**/*"], /* aqui estamos incluindo todos os arquivos dentro da pasta src */
-  "exclude": ["node_modules", "**/*.spec.ts"] /* aqui estamos excluindo a pasta node_modules e os arquivos de teste */
+  "exclude": [
+    "node_modules"
+  ]
 }
+```
 
+- [x] - Em seguida crie o arquivo .eslintrc.json e no seu escopo adicione a seguinte configuração:
+
+```json
+{
+  "root": true,
+  "env": {
+    "browser": false,
+    "node": true,
+    "es2021": true,
+    "jest": true
+  },
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "airbnb-base",
+    "plugin:editorconfig/noconflict",
+    "plugin:mocha/recommended",
+    "airbnb-typescript/base"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ]
+    }
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2019,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "sonarjs",
+    "editorconfig",
+    "mocha"
+  ],
+  "rules": {
+    "no-underscore-dangle": "off",
+    "no-console": "off",
+    "camelcase": "warn",
+    "arrow-parens": [
+      2,
+      "always"
+    ],
+    "quotes": [
+      2,
+      "single"
+    ],
+    "implicit-arrow-linebreak": "off",
+    "consistent-return": "off",
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "ignoreRestSiblings": true
+      }
+    ],
+    "object-curly-newline": "off",
+    "max-params": [
+      "error",
+      4
+    ],
+    "max-lines": [
+      "error",
+      250
+    ],
+    "max-lines-per-function": [
+      "error",
+      {
+        "max": 20,
+        "skipBlankLines": true,
+        "skipComments": true
+      }
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 100
+      },
+      {
+        "ignoreComments": true
+      }
+    ],
+    "complexity": [
+      "error",
+      5
+    ],
+    "import/no-extraneous-dependencies": [
+      "off"
+    ],
+    "sonarjs/cognitive-complexity": [
+      "error",
+      5
+    ],
+    "sonarjs/no-one-iteration-loop": [
+      "error"
+    ],
+    "sonarjs/no-identical-expressions": [
+      "error"
+    ],
+    "sonarjs/no-use-of-empty-return-value": [
+      "error"
+    ],
+    "sonarjs/no-extra-arguments": [
+      "error"
+    ],
+    "sonarjs/no-identical-conditions": [
+      "error"
+    ],
+    "sonarjs/no-collapsible-if": [
+      "error"
+    ],
+    "sonarjs/no-collection-size-mischeck": [
+      "error"
+    ],
+    "sonarjs/no-duplicate-string": [
+      "error"
+    ],
+    "sonarjs/no-duplicated-branches": [
+      "error"
+    ],
+    "sonarjs/no-identical-functions": [
+      "error"
+    ],
+    "sonarjs/no-redundant-boolean": [
+      "error"
+    ],
+    "sonarjs/no-unused-collection": [
+      "error"
+    ],
+    "sonarjs/no-useless-catch": [
+      "error"
+    ],
+    "sonarjs/prefer-object-literal": [
+      "error"
+    ],
+    "sonarjs/prefer-single-boolean-return": [
+      "error"
+    ],
+    "sonarjs/no-inverted-boolean-check": [
+      "error"
+    ]
+  }
+}
+```
+- [x] - Crinado um arquiv .env onde irá conter as variáveis de ambiente do banco de dados e demais dados sensíveis da aplicação:
+
+```.env
+ MONGO_INITDB_ROOT_USERNAME=root
+ MONGO_INITDB_ROOT_PASSWORD=xablau
 ```
 
 - [x] - Em seguida iremos criar a nossa pasta src, pois, lá conterá todos os arquivos que serão compilados de acordo com a configuração acima disponibilizada na propriedade "include":["src/**/**"].
@@ -207,3 +372,60 @@ npm install express
 npm install mongoose
 ```
 
+
+
+![Docker Node](./dockerNode.jpeg)
+
+### 5 - Dockerizando aplicação:
+
+> Para aplicação ficar mais completa iremos trabalhar com micro serviços (docker), inicialmente iremos dockerizar o mysql e o NodeJS.
+
+```yml
+version: '3.1'
+# inicialmente teremos 02(dois) microserviços trabalhando conjuntamente o mysql e o nodeJS (API - Back-End) 
+services:
+
+# 1º serviço mysql
+  mysql:  
+  # baixar a imagem do mysql 5.7 no docker hub
+      image: mysql:5.7
+      # da um nome para o nosso container mysql
+      container_name: container-mysql
+      # configurar nossa vairável de ambiente 
+      environment:
+        - MYSQL_ROOT_PASSWORD=xxxx
+      ports:
+      # rodar na porta 3308 na  minha maquina e 3306 no container
+        - 3308:3306  
+
+  # 2º serviço      
+  api:
+  # Baixar a última versão do node tag (latest)
+    image: node:latest
+    # vamos nomear o container como container-api
+    container_name: container-api
+    # restartar automaticamente a aplicação 
+    restart: always
+    # configurando a porta onde vai rodar api dentro do container docker
+    ports:
+    # rodar na porta 3001 na  minha maquina e 3001 no container
+      - 3001:3001
+    # configurando as variaveis de ambiente do mysql  
+    environment:
+        - DB_HOST=mysql
+        - DB_NAME=dbreservas
+        - DB_USER=root
+        - DB_PASSWORD=1020
+        - SERVER_PORT:3001
+    # Fazendo um bind entre minha pasta back-end e usr/app dentro do meu container node    
+    volumes:
+      - ./back-end:/usr/app
+    # setando meu diretório de trabalho onde será refletido as mudanças feitas na pasta back-end  
+    working_dir: /usr/app
+    # por fim vamos rodar o comando npm install e npm start para instalar as dependencias do meu projeto 
+    # dentro do container e por fim inicializar minha aplicação back-end
+    command: bash -c "npm install && npm start"            
+# --------------------------------------------------------------
+# CRIANDO UM SCRIPT NO pakage.json para rondar o script abaixo #
+# --------------------------------------------------------------
+# docker-compose up -d
